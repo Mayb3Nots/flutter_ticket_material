@@ -19,7 +19,6 @@ class TicketMaterial extends StatefulWidget {
   final Widget rightChild;
   final Function()? tapHandler;
   final bool useAnimationScaleOnTap;
-  final double lowerBoundAnimation;
 
   const TicketMaterial({
     this.flexLefSize = 70,
@@ -36,7 +35,6 @@ class TicketMaterial extends StatefulWidget {
     this.radiusBorder = 0,
     this.tapHandler,
     this.useAnimationScaleOnTap = true,
-    this.lowerBoundAnimation = 0,
   });
 
   @override
@@ -45,40 +43,14 @@ class TicketMaterial extends StatefulWidget {
 
 class _TicketMaterialState extends State<TicketMaterial>
     with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-
   final double _height;
   final _width = double.infinity;
 
   _TicketMaterialState(this._height);
 
-  @override
-  void initState() {
-    _controller = AnimationController(
-      duration: const Duration(milliseconds: 200),
-      lowerBound: widget.lowerBoundAnimation,
-      upperBound: 0.1,
-      vsync: this,
-    )..addListener(() {
-        setState(() {});
-      });
-
-    super.initState();
-  }
-
-  ///Launch revers animation of ticket(setting scale to default size).
-  void _tapDown(TapDownDetails details) {
-    if (widget.useAnimationScaleOnTap) {
-      _controller.reverse();
-    }
-  }
-
   ///This trigger immediately before onTap event.
   ///Launch animation of changing scale ticket(reducing size of ticket).
   void _tapUp(TapUpDetails details) {
-    if (widget.useAnimationScaleOnTap) {
-      _controller.forward();
-    }
     if (widget.tapHandler != null) {
       widget.tapHandler!();
     }
@@ -86,82 +58,71 @@ class _TicketMaterialState extends State<TicketMaterial>
 
   @override
   Widget build(BuildContext context) {
-    final _scale = 1 - _controller.value;
     return GestureDetector(
       onTapUp: _tapUp,
-      onTapDown: _tapDown,
-      child: Transform.scale(
-        scale: _scale,
-        child: SizedBox(
-          width: _width,
-          height: _height,
-          child: Row(
-            children: <Widget>[
-              Flexible(
-                  flex: widget.flexLefSize,
-                  child: Container(
-                    height: double.infinity,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                        color: widget.colorBackground,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(widget.radiusBorder),
-                          bottomLeft: Radius.circular(widget.radiusBorder),
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: widget.colorShadow,
-                            blurRadius: 0.5,
-                            offset: Offset(-0.5, widget.shadowSize),
-                          ),
-                        ]),
-                    child: widget.leftChild,
-                  )),
-              Flexible(
-                flex: widget.flexMaskSize,
+      child: SizedBox(
+        width: _width,
+        height: _height,
+        child: Row(
+          children: <Widget>[
+            Flexible(
+                flex: widget.flexLefSize,
                 child: Container(
                   height: double.infinity,
                   width: double.infinity,
-                  color: Colors.transparent,
-                  child: CustomPaint(
-                    painter: MaskTicketPainter(
-                        radiusCircle: widget.radiusCircle,
-                        marginBetweenCircles: widget.marginBetweenCircles,
-                        colorBg: widget.colorBackground,
-                        colorShadow: widget.colorShadow,
-                        shadowSize: widget.shadowSize),
-                  ),
+                  decoration: BoxDecoration(
+                      color: widget.colorBackground,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(widget.radiusBorder),
+                        bottomLeft: Radius.circular(widget.radiusBorder),
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: widget.colorShadow,
+                          blurRadius: 0.5,
+                          offset: Offset(-0.5, widget.shadowSize),
+                        ),
+                      ]),
+                  child: widget.leftChild,
+                )),
+            Flexible(
+              flex: widget.flexMaskSize,
+              child: Container(
+                height: double.infinity,
+                width: double.infinity,
+                color: Colors.transparent,
+                child: CustomPaint(
+                  painter: MaskTicketPainter(
+                      radiusCircle: widget.radiusCircle,
+                      marginBetweenCircles: widget.marginBetweenCircles,
+                      colorBg: widget.colorBackground,
+                      colorShadow: widget.colorShadow,
+                      shadowSize: widget.shadowSize),
                 ),
               ),
-              Flexible(
-                  flex: widget.flexRightSize,
-                  child: Container(
-                    height: double.infinity,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                        color: widget.colorBackground,
-                        borderRadius: BorderRadius.only(
-                          bottomRight: Radius.circular(widget.radiusBorder),
-                          topRight: Radius.circular(widget.radiusBorder),
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                              color: widget.colorShadow,
-                              blurRadius: 0.5,
-                              offset: Offset(0.5, widget.shadowSize)),
-                        ]),
-                    child: widget.rightChild,
-                  ))
-            ],
-          ),
+            ),
+            Flexible(
+                flex: widget.flexRightSize,
+                child: Container(
+                  height: double.infinity,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                      color: widget.colorBackground,
+                      borderRadius: BorderRadius.only(
+                        bottomRight: Radius.circular(widget.radiusBorder),
+                        topRight: Radius.circular(widget.radiusBorder),
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                            color: widget.colorShadow,
+                            blurRadius: 0.5,
+                            offset: Offset(0.5, widget.shadowSize)),
+                      ]),
+                  child: widget.rightChild,
+                ))
+          ],
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
   }
 }
