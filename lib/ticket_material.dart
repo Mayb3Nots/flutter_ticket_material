@@ -73,12 +73,11 @@ class _TicketMaterialState extends State<TicketMaterial>
   ///This trigger immediately before onTap event.
   ///Launch animation of changing scale ticket(reducing size of ticket).
   void _tapUp(bool canceled) {
-    if (widget.useAnimationScaleOnTap) {
+    if (widget.useAnimationScaleOnTap && canceled == false) {
       _controller.forward();
     }
     if (widget.tapHandler != null && canceled == false) {
       widget.tapHandler!();
-      _controller.reset();
     }
   }
 
