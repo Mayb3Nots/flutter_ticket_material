@@ -60,7 +60,7 @@ class _TicketMaterialState extends State<TicketMaterial>
       upperBound: 1,
       vsync: this,
     );
-
+    _controller.reverse();
     super.initState();
   }
 
