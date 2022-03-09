@@ -65,29 +65,29 @@ class _TicketMaterialState extends State<TicketMaterial>
   }
 
   ///Launch revers animation of ticket(setting scale to default size).
-  void _tapDown() {
+  void _tapDown(TapDownDetails details) {
     if (widget.useAnimationScaleOnTap) {
       _controller.reverse();
-    }
-
-    if (widget.tapHandler != null) {
-      widget.tapHandler!();
     }
   }
 
   ///This trigger immediately before onTap event.
   ///Launch animation of changing scale ticket(reducing size of ticket).
-  void _tapUp(TapUpDetails details) {
+  void _tapUp() {
     if (widget.useAnimationScaleOnTap) {
       _controller.forward();
+    }
+    if (widget.tapHandler != null) {
+      widget.tapHandler!();
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTapUp: _tapUp,
-      onTapCancel: _tapDown,
+      onTapUp: (_) => _tapUp(),
+      onTapDown: _tapDown,
+      onTapCancel: _tapUp,
       child: ScaleTransition(
         scale: _controller,
         child: SizedBox(
