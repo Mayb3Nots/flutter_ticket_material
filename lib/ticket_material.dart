@@ -36,7 +36,7 @@ class TicketMaterial extends StatefulWidget {
     this.radiusBorder = 0,
     this.tapHandler,
     this.useAnimationScaleOnTap = true,
-    this.lowerBoundAnimation = 0.95,
+    this.lowerBoundAnimation = 0,
   });
 
   @override
@@ -57,10 +57,12 @@ class _TicketMaterialState extends State<TicketMaterial>
     _controller = AnimationController(
       duration: const Duration(milliseconds: 200),
       lowerBound: widget.lowerBoundAnimation,
-      upperBound: 1,
+      upperBound: 0.1,
       vsync: this,
-    );
-    _controller.forward();
+    )..addListener(() {
+        setState(() {});
+      });
+
     super.initState();
   }
 
@@ -84,11 +86,12 @@ class _TicketMaterialState extends State<TicketMaterial>
 
   @override
   Widget build(BuildContext context) {
+    final _scale = 1 - _controller.value;
     return GestureDetector(
       onTapUp: _tapUp,
       onTapDown: _tapDown,
-      child: ScaleTransition(
-        scale: _controller,
+      child: Transform.scale(
+        scale: _scale,
         child: SizedBox(
           width: _width,
           height: _height,
