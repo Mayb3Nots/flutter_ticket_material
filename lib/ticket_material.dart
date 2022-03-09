@@ -60,7 +60,6 @@ class _TicketMaterialState extends State<TicketMaterial>
       upperBound: 1,
       vsync: this,
     );
-    _controller.forward();
     super.initState();
   }
 
