@@ -86,7 +86,7 @@ class _TicketMaterialState extends State<TicketMaterial>
     return GestureDetector(
       onTapUp: _tapUp,
       onTapDown: _tapDown,
-      onTapCancel: () => _controller.reverse(),
+      // onTapCancel: () => _controller.reverse(),
       child: ScaleTransition(
         scale: _controller,
         child: SizedBox(
