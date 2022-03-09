@@ -60,6 +60,7 @@ class _TicketMaterialState extends State<TicketMaterial>
       upperBound: 1,
       vsync: this,
     );
+    _controller.forward();
     super.initState();
   }
 
@@ -86,7 +87,6 @@ class _TicketMaterialState extends State<TicketMaterial>
     return GestureDetector(
       onTapUp: _tapUp,
       onTapDown: _tapDown,
-      onTapCancel: () => _controller.forward(),
       child: ScaleTransition(
         scale: _controller,
         child: SizedBox(
