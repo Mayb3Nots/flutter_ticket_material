@@ -78,6 +78,7 @@ class _TicketMaterialState extends State<TicketMaterial>
     }
     if (widget.tapHandler != null && canceled == false) {
       widget.tapHandler!();
+      _controller.reset();
     }
   }
 
