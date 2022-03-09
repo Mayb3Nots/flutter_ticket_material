@@ -87,7 +87,6 @@ class _TicketMaterialState extends State<TicketMaterial>
   Widget build(BuildContext context) {
     return GestureDetector(
       onTapUp: _tapUp,
-      onTapDown: (_) => _tapDown(),
       onTapCancel: _tapDown,
       child: ScaleTransition(
         scale: _controller,
