@@ -65,7 +65,7 @@ class _TicketMaterialState extends State<TicketMaterial>
   }
 
   ///Launch revers animation of ticket(setting scale to default size).
-  void _tapDown(TapDownDetails details) {
+  void _tapDown() {
     if (widget.useAnimationScaleOnTap) {
       _controller.reverse();
     }
@@ -87,7 +87,8 @@ class _TicketMaterialState extends State<TicketMaterial>
   Widget build(BuildContext context) {
     return GestureDetector(
       onTapUp: _tapUp,
-      onTapDown: _tapDown,
+      onTapDown: (_) => _tapDown(),
+      onTapCancel: _tapDown,
       child: ScaleTransition(
         scale: _controller,
         child: SizedBox(
