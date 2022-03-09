@@ -56,8 +56,8 @@ class _TicketMaterialState extends State<TicketMaterial>
   void initState() {
     _controller = AnimationController(
       duration: const Duration(milliseconds: 200),
-      lowerBound: widget.lowerBoundAnimation,
-      upperBound: 1,
+      lowerBound: 1,
+      upperBound: widget.lowerBoundAnimation,
       vsync: this,
     );
     super.initState();
@@ -66,7 +66,7 @@ class _TicketMaterialState extends State<TicketMaterial>
   ///Launch revers animation of ticket(setting scale to default size).
   void _tapDown(TapDownDetails details) {
     if (widget.useAnimationScaleOnTap) {
-      _controller.reverse();
+      _controller.forward();
     }
   }
 
@@ -74,7 +74,7 @@ class _TicketMaterialState extends State<TicketMaterial>
   ///Launch animation of changing scale ticket(reducing size of ticket).
   void _tapUp(TapUpDetails details) {
     if (widget.useAnimationScaleOnTap) {
-      _controller.forward();
+      _controller.reverse();
     }
     if (widget.tapHandler != null) {
       widget.tapHandler!();
@@ -86,7 +86,7 @@ class _TicketMaterialState extends State<TicketMaterial>
     return GestureDetector(
       onTapUp: _tapUp,
       onTapDown: _tapDown,
-      // onTapCancel: () => _controller.reverse(),
+      onTapCancel: () => _controller.reverse(),
       child: ScaleTransition(
         scale: _controller,
         child: SizedBox(
