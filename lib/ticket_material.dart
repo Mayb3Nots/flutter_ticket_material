@@ -1,4 +1,3 @@
-import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 import 'package:ticket_material/mask_ticket_painter.dart';
 
@@ -19,6 +18,7 @@ class TicketMaterial extends StatefulWidget {
   final Widget rightChild;
   final Function()? tapHandler;
   final bool useAnimationScaleOnTap;
+  final Clip clipBehavior;
 
   const TicketMaterial({
     this.flexLefSize = 70,
@@ -34,7 +34,7 @@ class TicketMaterial extends StatefulWidget {
     this.shadowSize = 1.5,
     this.radiusBorder = 0,
     this.tapHandler,
-    this.useAnimationScaleOnTap = true,
+    this.useAnimationScaleOnTap = true,  this.clipBehavior = Clip.antiAlias,
   });
 
   @override
@@ -67,7 +67,7 @@ class _TicketMaterialState extends State<TicketMaterial>
           children: <Widget>[
             Flexible(
                 flex: widget.flexLefSize,
-                child: Container(
+                child: Container(clipBehavior: widget.clipBehavior,
                   height: double.infinity,
                   width: double.infinity,
                   decoration: BoxDecoration(
@@ -104,6 +104,7 @@ class _TicketMaterialState extends State<TicketMaterial>
             Flexible(
                 flex: widget.flexRightSize,
                 child: Container(
+                  clipBehavior: widget.clipBehavior,
                   height: double.infinity,
                   width: double.infinity,
                   decoration: BoxDecoration(
